@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    hostname: vobox.grid.vbc.ac.at
+    image: ${MOLECULE_IMAGE:-'centos/systemd:latest'}
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    tmpfs:
+      - /tmp
+      - /run
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  options:
+    # FIXME
+    W: ignore::DeprecationWarning
+    junit-xml: junit.xml
+  lint:
+    name: flake8
