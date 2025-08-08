@@ -22,3 +22,31 @@
   template:
     src: edg-mkgridmap.conf.j2
     dest: /etc/edg-mkgridmap.conf
+
+- name: Install grid-mapfile-local from template
+  template:
+    src: grid-mapfile-local.j2
+    dest: /etc/grid-mapfile-local
+
+- name: Run edg-mkgridmap once
+  shell: edg-mkgridmap --output
+
+- name: Stop sshd
+  service:
+    name: sshd
+    state: stopped
+
+- name: Ensure gsisshd is enabled
+  service:
+    name: gsisshd
+    state: enabled
+
+- name: Ensure gsisshd is running
+  service:
+    name: gsisshd
+    state: running
+
+- name: Ensure sshd is disabled
+  service:
+    name: sshd
+    state: disabled
