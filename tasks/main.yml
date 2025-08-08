@@ -1,7 +1,24 @@
 ---
-# tasks file for wlcg vobox
 - name: Install packages
   package:
     name:
+      - fetch-crl
+      - edg-mkgridmap
+      - lcmaps
       - wlcg-vobox
+      - wlcg-iam-lsc-alice
+      - wlcg-iam-vomses-alice
+
     state: installed
+
+- name: Create vobox user
+  user:
+    name: '{{ item.name }}'
+    comment: '{{ item.comment }}'
+    state: present
+  with_items: '{{ role_vobox_accounts }}'
+
+- name: Install edg-mkgridmap.conf from template
+  template:
+    src: edg-mkgridmap.conf.j2
+    dest: /etc/edg-mkgridmap.conf
