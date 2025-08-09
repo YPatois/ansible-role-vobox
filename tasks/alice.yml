@@ -1,0 +1,42 @@
+---
+- name: Create directory for alice vobox
+  file:
+    state: directory
+    path: /var/lib/vobox/alice
+    mode: 0755
+    owner: alicesgm
+
+- name: Create subdirectories for alice vobox
+  file:
+    state: directory
+    path: '/var/lib/vobox/alice/{{ item }}'
+    mode: 0755
+    owner: alicesgm
+  with_items:
+    - agents
+    - data
+    - etc
+    - info-provider
+    - lock
+    - log
+    - proxy_repository
+    - start
+    - stop
+    - tmp
+
+- name: Copy alice proxy renewal script
+  copy:
+    src: alice-box-proxyrenewal
+    dest: /etc/init.d/alice-box-proxyrenewal
+    mode: 0755
+
+- name: Cron for alice proxy renewal
+  cron:
+    name: alice-proxy-renewal
+    minute: 20
+    hour: 2,8,14,20
+    day: '*'
+    month: '*'
+    week: '*'
+    user: root
+    command: '/sbin/service alice-box-proxyrenewal proxy'
