@@ -36,4 +36,4 @@
     minute: '20'
     hour: '2,8,14,20'
     user: 'root'
-    command: '/sbin/service alice-box-proxyrenewal proxy'
+    job: '/sbin/service alice-box-proxyrenewal proxy'
