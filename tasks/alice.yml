@@ -33,10 +33,7 @@
 - name: Cron for alice proxy renewal
   cron:
     name: alice-proxy-renewal
-    minute: 20
-    hour: 2,8,14,20
-    day: '*'
-    month: '*'
-    week: '*'
-    user: root
+    minute: '20'
+    hour: '2,8,14,20'
+    user: 'root'
     command: '/sbin/service alice-box-proxyrenewal proxy'
