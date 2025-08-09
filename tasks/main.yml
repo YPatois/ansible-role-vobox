@@ -31,10 +31,11 @@
 - name: Run edg-mkgridmap once
   shell: edg-mkgridmap --output
 
-- name: Stop sshd
-  service:
-    name: sshd
-    state: stopped
+- name: Configure gsisshd port
+  shell: sed -i 's/Port 22/Port 1975/' /etc/gsissh/sshd_config
+
+- name: Ensure gsisshd port line is not commented out
+  shell: sed -i 's/#Port /Port /' /etc/gsissh/sshd_config
 
 - name: Ensure gsisshd is enabled
   service:
@@ -46,7 +47,4 @@
     name: gsisshd
     state: running
 
-- name: Ensure sshd is disabled
-  service:
-    name: sshd
-    state: disabled
+- include_tasks: alice.yml
