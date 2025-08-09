@@ -40,11 +40,11 @@
 - name: Ensure gsisshd is enabled
   service:
     name: gsisshd
-    state: enabled
+    enabled: true
 
 - name: Ensure gsisshd is running
   service:
     name: gsisshd
-    state: running
+    state: started
 
 - include_tasks: alice.yml
